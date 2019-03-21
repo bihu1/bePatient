@@ -1,5 +1,7 @@
 package com.dryPepperoniStickTeam.bePatient.domain;
 
+import com.dryPepperoniStickTeam.bePatient.domain.doctor.Doctor;
+import com.dryPepperoniStickTeam.bePatient.domain.doctor.DoctorRepository;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -22,6 +24,8 @@ import static java.util.Arrays.asList;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class DocktorController {
 
+    private final DoctorRepository doctorRepository;
+
     @GetMapping("v")
     @ApiOperation(value = "Shit")
     @ApiResponses({
@@ -29,6 +33,7 @@ public class DocktorController {
     })
     @ResponseStatus(HttpStatus.OK)
     public List<String> getTest() {
+        doctorRepository.save(new Doctor(1, "a"));
         return asList("a","b","c");
     }
 

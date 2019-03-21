@@ -1,0 +1,27 @@
+version: '3.5' #wersja compose
+
+services:
+  postgres:
+    image: postgres:10-alpine
+    restart: always
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5431:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data #polaczenie miedzy realnym miejscem na dysku a dockerem
+
+  pgadmin:
+    image: dpage/pgadmin4:4.3
+    restart: on-failure
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ala
+      PGADMIN_DEFAULT_PASSWORD: password
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+volumes:
+  db_data:
