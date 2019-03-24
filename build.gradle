@@ -73,6 +73,11 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+	systemProperty 'spring.profiles.active', 'test'
+}
+
+bootRun {
+	systemProperty 'spring.profiles.active', 'local'
 }
 
 jib{
@@ -80,7 +85,7 @@ jib{
 		image = "openjdk:8-jre-alpine"
 	}
 	to{
-		image = "bihu1/repository"
+		image = "bihu1/be_patient"
 	}
 	container {
 		jvmFlags = ['-Xms512m', '-Xmx2048m', '-Xdebug']

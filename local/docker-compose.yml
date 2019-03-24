@@ -24,18 +24,6 @@ services:
     networks:
       - postgres-compose-network
 
-  bePatient-backend:
-    image: bihu1/be_patient:latest
-    restart: on-failure
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-    ports:
-      - "8081:8081"
-    depends_on:
-      - db-postgres
-    networks:
-      - postgres-compose-network
-
 networks:
   postgres-compose-network:
     driver: bridge
