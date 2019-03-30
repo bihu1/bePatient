@@ -1,18 +1,22 @@
 package com.dryPepperoniStickTeam.bePatient.domain.user;
 
 import com.dryPepperoniStickTeam.bePatient.domain.user.UserRole;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Data
-@Entity(name="AppUser")
+@Entity(name="users")
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+@FieldDefaults(level= AccessLevel.PRIVATE)
+@Inheritance(strategy=InheritanceType.JOINED)
+public abstract class User {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
