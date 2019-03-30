@@ -1,6 +1,7 @@
 package com.dryPepperoniStickTeam.bePatient.domain.doctor;
 
 import com.dryPepperoniStickTeam.bePatient.domain.doctor.http.model.DoctorView;
+import com.dryPepperoniStickTeam.bePatient.domain.visit.VisitRepository;
 import lombok.AllArgsConstructor;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import static java.util.Arrays.asList;
 public class DoctorService {
 
     private final DoctorRepository doctorRepository;
+    private final VisitRepository visitRepository;
     private final MapperFacade mapper;
 
     public List<DoctorView> getAllDoctors(){
@@ -24,4 +26,5 @@ public class DoctorService {
         doctorViews.forEach(dv -> dv.setServices(asList("dummyContent")));
         return doctorViews;
     }
+
 }

@@ -1,10 +1,13 @@
 package com.dryPepperoniStickTeam.bePatient.domain.patient.model;
 
 import com.dryPepperoniStickTeam.bePatient.domain.user.User;
+import com.dryPepperoniStickTeam.bePatient.domain.visit.Visit;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 @Data
 @Entity
@@ -17,4 +20,7 @@ public class Patient extends User {
 
     int pesel;
     String email;
+    @OneToMany
+    //@JoinColumn ditto
+    List<Visit> visits;
 }
