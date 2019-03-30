@@ -1,4 +1,4 @@
-package com.dryPepperoniStickTeam.bePatient.domain.patient;
+package com.dryPepperoniStickTeam.bePatient.domain.patient.model;
 
 import com.dryPepperoniStickTeam.bePatient.domain.user.User;
 import lombok.*;

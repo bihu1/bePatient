@@ -54,6 +54,6 @@ public class DoctorController {
             @RequestParam String username,
             @RequestParam String password
     ){
-        userRepository.save(new User(0,username,password,asList(new UserRole("user"))));
+        //userRepository.save(new User(0,username,password,asList(new UserRole("user"))));
     }
 }
