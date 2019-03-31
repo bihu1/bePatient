@@ -22,10 +22,10 @@ public class MedicalServiceController {
     private final MedicalServiceService medicalServiceService;
 
     @GetMapping("/services/(serviceId)")
-    @ApiOperation(value="Add new medical service", authorizations = {@Authorization("Bearer <oAuth2>")})
+    @ApiOperation(value="Get medical service", authorizations = {@Authorization("Bearer <oAuth2>")})
     @ApiResponses({
-            @ApiResponse(code = 204, message = "Updated medical service"),
-            @ApiResponse(code = 400, message = "Request body is not correct")
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 404, message = "Not found")
     })
     @ResponseStatus(code = HttpStatus.OK)
     public MedicalServiceView getMedicalService(
@@ -55,11 +55,12 @@ public class MedicalServiceController {
         medicalServiceService.addMedicalService(medicalServiceDetails);
     }
 
-    @PostMapping("/services/(serviceId)")
+    @PutMapping("/services/(serviceId)")
     @ApiOperation(value="Add new medical service", authorizations = {@Authorization("Bearer <oAuth2>")})
     @ApiResponses({
             @ApiResponse(code = 204, message = "Updated medical service"),
-            @ApiResponse(code = 400, message = "Request body is not correct")
+            @ApiResponse(code = 400, message = "Request body is not correct"),
+            @ApiResponse(code = 404, message = "Not found")
     })
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void addMedicalService(
@@ -72,7 +73,7 @@ public class MedicalServiceController {
     @DeleteMapping("/services/(serviceId)")
     @ApiOperation(value="Add new medical service", authorizations = {@Authorization("Bearer <oAuth2>")})
     @ApiResponses({
-            @ApiResponse(code = 204, message = "Updated medical service"),
+            @ApiResponse(code = 204, message = "Delete medical service"),
             @ApiResponse(code = 404, message = "Not found")
     })
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
