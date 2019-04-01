@@ -27,6 +27,6 @@ public class PatientDetails {
     String phone;
 
     @NotEmpty
-    @Pattern(regexp = "\\$?\\d{1,3}(,?\\d{3})*(\\.\\d{1,2})?")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")
     String password;
 }

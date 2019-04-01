@@ -5,6 +5,7 @@ import com.dryPepperoniStickTeam.bePatient.domain.visit.http.model.*;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.Authorization;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,14 +13,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/api")
+@RestController
+@RequestMapping("/api")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class VisitController {
 
     private final VisitService visitService;
 
-    @GetMapping("/doctor/{doctorId}/visits")
-    @ApiOperation(value = "Get all available doctor's visits")
+    @GetMapping("/doctors/{doctorId}/visits")
+    @ApiOperation(value = "Get all available doctor's visits", authorizations = {@Authorization("Bearer <oAuth2>")})
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
     })
@@ -28,8 +30,8 @@ public class VisitController {
         return visitService.getAllAvailableDoctorsVisits(doctorId);
     }
 
-    @PostMapping("/doctor/{doctorId}/visits")
-    @ApiOperation(value = "Get all available doctor's visits")
+    @PostMapping("/doctors/{doctorId}/visits")
+    @ApiOperation(value = "Get all available doctor's visits", authorizations = {@Authorization("Bearer <oAuth2>")})
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 200, message = "Bad request"),
@@ -40,8 +42,8 @@ public class VisitController {
         visitService.addDoctorAvailableVisit(doctorId, visitDetails);
     }
 
-    @GetMapping("/doctor/{doctorId}/visits/{visitId}")
-    @ApiOperation(value = "Reserve visit for patient")
+    @GetMapping("/doctors/{doctorId}/visits/{visitId}")
+    @ApiOperation(value = "Reserve visit for patient", authorizations = {@Authorization("Bearer <oAuth2>")})
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
     })
@@ -54,8 +56,8 @@ public class VisitController {
         visitService.reserveVisitByPatient(doctorId, visitId, patientIdHolder.getId());
     }
 
-    @GetMapping("/patient/{patientId}/visits")
-    @ApiOperation(value = "Get all patient's visits")
+    @GetMapping("/patients/{patientId}/visits")
+    @ApiOperation(value = "Get all patient's visits", authorizations = {@Authorization("Bearer <oAuth2>")})
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
     })
@@ -65,7 +67,7 @@ public class VisitController {
     }
 
     @PostMapping("/visits/{visitId}/assign")
-    @ApiOperation(value = "Assign diseases and medical services to visit")
+    @ApiOperation(value = "Assign diseases and medical services to visit", authorizations = {@Authorization("Bearer <oAuth2>")})
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 400, message = "Bad request"),
@@ -77,7 +79,7 @@ public class VisitController {
     }
 
     @PutMapping("/visits/{visitId}")
-    @ApiOperation(value = "Assign diseases and medical services to visit")
+    @ApiOperation(value = "Assign diseases and medical services to visit", authorizations = {@Authorization("Bearer <oAuth2>")})
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 400, message = "Bad request"),

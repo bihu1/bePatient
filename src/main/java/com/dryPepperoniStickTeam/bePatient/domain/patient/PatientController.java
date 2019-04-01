@@ -8,21 +8,19 @@ import io.swagger.annotations.Authorization;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@RestController("api/patient")
+@RestController
+@RequestMapping("/patient")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class PatientController {
 
     private final PatientService patientService;
 
     @PostMapping("registration")
-    @ApiOperation(value="Register new patient", authorizations = {@Authorization("Bearer <oAuth2>")})
+    @ApiOperation(value="Register new patient")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Created patient"),
             @ApiResponse(code = 400, message = "Request body is not correct")

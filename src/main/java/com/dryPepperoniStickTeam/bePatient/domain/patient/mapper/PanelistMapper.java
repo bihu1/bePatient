@@ -11,7 +11,7 @@ public class PanelistMapper implements OrikaBeanMapping {
     @Override
     public void configure(MapperFactory mapperFactory) {
         mapperFactory.classMap(PatientDetails.class, Patient.class)
-                .field("pesel","login")
+                .field("pesel","username")
                 .byDefault()
                 .register();
     }

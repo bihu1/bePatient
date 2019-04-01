@@ -1,6 +1,9 @@
 package com.dryPepperoniStickTeam.bePatient.domain.doctor;
 
+import com.dryPepperoniStickTeam.bePatient.domain.doctor.http.model.DoctorDetails;
 import com.dryPepperoniStickTeam.bePatient.domain.doctor.http.model.DoctorView;
+import com.dryPepperoniStickTeam.bePatient.domain.service.MedicalService;
+import com.dryPepperoniStickTeam.bePatient.domain.service.MedicalServiceRepository;
 import com.dryPepperoniStickTeam.bePatient.domain.visit.VisitRepository;
 import lombok.AllArgsConstructor;
 import ma.glasnost.orika.MapperFacade;
@@ -16,7 +19,7 @@ import static java.util.Arrays.asList;
 public class DoctorService {
 
     private final DoctorRepository doctorRepository;
-    private final VisitRepository visitRepository;
+    private final MedicalServiceRepository medicalServiceRepository;
     private final MapperFacade mapper;
 
     public List<DoctorView> getAllDoctors(){
@@ -27,4 +30,13 @@ public class DoctorService {
         return doctorViews;
     }
 
+    public void addDoctor(DoctorDetails doctorDetails){
+        Doctor doctor = mapper.map(doctorDetails, Doctor.class);
+        List<MedicalService> medicalServices = medicalServiceRepository.findByIdIn(doctorDetails.getServices());
+        if(medicalServices.size() != doctorDetails.getServices().size()){
+            throw new RuntimeException();
+        }
+        doctor.setMedicalServices(medicalServices);
+        doctorRepository.save(doctor);
+    }
 }

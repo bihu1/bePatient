@@ -1,5 +1,6 @@
 package com.dryPepperoniStickTeam.bePatient.domain.doctor;
 
+import com.dryPepperoniStickTeam.bePatient.domain.doctor.http.model.DoctorDetails;
 import com.dryPepperoniStickTeam.bePatient.domain.doctor.http.model.DoctorView;
 import com.dryPepperoniStickTeam.bePatient.domain.user.User;
 import com.dryPepperoniStickTeam.bePatient.domain.user.UserRepository;
@@ -17,14 +18,15 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 
-@RestController("api/doctors")
+@RestController
+@RequestMapping("/api/doctors")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class DoctorController {
 
     private final DoctorService doctorService;
 
     @GetMapping
-    @ApiOperation(value = "Get all doctors")
+    @ApiOperation(value = "Get all doctors", authorizations = {@Authorization("Bearer <oAuth2>")})
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
     })
@@ -33,26 +35,13 @@ public class DoctorController {
         return doctorService.getAllDoctors();
     }
 
-//    @GetMapping("/api/auth/test")
-//    @ApiOperation(value = "Shit", authorizations = {@Authorization("Bearer <oAuth2>")} )
-//    @ApiResponses({
-//            @ApiResponse(code = 200, message = "OK"),
-//    })
-//    @ResponseStatus(HttpStatus.OK)
-//    public List<String> getTest2() {
-//        return asList("a","b","c");
-//    }
-//
-//    @GetMapping("registry")
-//    @ApiOperation(value = "Shit")
-//    @ApiResponses({
-//            @ApiResponse(code = 200, message = "OK"),
-//    })
-//    @ResponseStatus(HttpStatus.OK)
-//    public void getTest2a(
-//            @RequestParam String username,
-//            @RequestParam String password
-//    ){
-//        //userRepository.save(new User(0,username,password,asList(new UserRole("user"))));
-//    }
+    @PostMapping
+    @ApiOperation(value = "Add new doctor", authorizations = {@Authorization("Bearer <oAuth2>")} )
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK"),
+    })
+    @ResponseStatus(HttpStatus.OK)
+    public void addDoctor(@RequestBody DoctorDetails doctorDetails) {
+        doctorService.addDoctor(doctorDetails);
+    }
 }

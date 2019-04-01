@@ -1,5 +1,6 @@
 package com.dryPepperoniStickTeam.bePatient.domain.doctor;
 
+import com.dryPepperoniStickTeam.bePatient.domain.service.MedicalService;
 import com.dryPepperoniStickTeam.bePatient.domain.user.User;
 import com.dryPepperoniStickTeam.bePatient.domain.visit.Visit;
 import lombok.*;
@@ -16,19 +17,22 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true, exclude = "visits")
+@EqualsAndHashCode(callSuper = true, exclude = "visits")
 @FieldDefaults(level= AccessLevel.PRIVATE)
 public class Doctor extends User {
 
     String firstName;
     String lastName;
     String title;
+    String email;
     @ElementCollection
     List<String> professions;
     @OneToMany
     //@JoinColumn check if it is needed
     List<Visit> visits;
+    @OneToMany
+    List<MedicalService> medicalServices;
 
     public void addVisit(Visit visit){
         if(visits == null){

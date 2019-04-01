@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@RestController("/api")
+@RestController
+@RequestMapping("/api")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class DiseaseController {
 
@@ -49,7 +50,7 @@ public class DiseaseController {
     }
 
     @PostMapping("/diseases")
-    @ApiOperation(value="Add new medical service", authorizations = {@Authorization("Bearer <oAuth2>")})
+    @ApiOperation(value="Add new disease", authorizations = {@Authorization("Bearer <oAuth2>")})
     @ApiResponses({
             @ApiResponse(code = 201, message = "Created disease"),
             @ApiResponse(code = 400, message = "Request body is not correct")
@@ -68,10 +69,10 @@ public class DiseaseController {
     })
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void updateDisease(
-            @PathVariable long serviceId,
+            @PathVariable long diseaseId,
             @RequestBody @Valid DiseaseUpdate diseaseUpdate
     ){
-        diseaseService.updateDisease(serviceId, diseaseUpdate);
+        diseaseService.updateDisease(diseaseId, diseaseUpdate);
     }
 
     @DeleteMapping("/disease/(diseaseId)")
