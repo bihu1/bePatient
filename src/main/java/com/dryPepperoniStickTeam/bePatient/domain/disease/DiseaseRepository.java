@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface DiseaseRepository extends CrudRepository<Disease, Long> {
     List<Disease> findAll();
+    List<Disease> findByIdIn(List<Long> idList);
 }

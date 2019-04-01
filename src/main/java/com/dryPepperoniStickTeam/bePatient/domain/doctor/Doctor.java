@@ -9,6 +9,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -28,4 +29,11 @@ public class Doctor extends User {
     @OneToMany
     //@JoinColumn check if it is needed
     List<Visit> visits;
+
+    public void addVisit(Visit visit){
+        if(visits == null){
+            visits = new ArrayList<>();
+        }
+        visits.add(visit);
+    }
 }
