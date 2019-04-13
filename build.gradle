@@ -43,7 +43,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure'
-
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	
 	implementation group: 'ma.glasnost.orika', name: 'orika-core'
 
 	implementation group: 'io.springfox', name: 'springfox-swagger2'

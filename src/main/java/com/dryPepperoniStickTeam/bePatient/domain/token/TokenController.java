@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 public class TokenController {
 
+    //@CrossOrigin(origins = "http://localhost:4000")
     @GetMapping("token")
     @ApiOperation(value = "Shit")
     @ApiResponses({

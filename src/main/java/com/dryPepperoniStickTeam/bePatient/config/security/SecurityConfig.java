@@ -1,4 +1,5 @@
 package com.dryPepperoniStickTeam.bePatient.config.security;
+import com.dryPepperoniStickTeam.bePatient.config.cross.CorsConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +22,11 @@ import org.springframework.security.oauth2.provider.approval.TokenStoreUserAppro
 import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
+import org.springframework.security.web.session.SessionManagementFilter;
+import org.springframework.web.filter.CorsFilter;
+
+import javax.servlet.Filter;
+
 
 @Configuration
 @EnableWebSecurity
@@ -43,15 +49,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 
+	@Bean
+	Filter corsFilter() {
+		return new CorsConfiguration();
+	}
 
 	@Override
 	@Order(Ordered.HIGHEST_PRECEDENCE)
 	protected void configure(HttpSecurity http) throws Exception {
 		http
+				.addFilterBefore(corsFilter(), SessionManagementFilter.class)
 				.sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
 				.csrf().disable()
+				//.cors().disable()
 				.authorizeRequests()
 				.antMatchers("/patient/registration").permitAll()
 				.antMatchers("/test").permitAll()
