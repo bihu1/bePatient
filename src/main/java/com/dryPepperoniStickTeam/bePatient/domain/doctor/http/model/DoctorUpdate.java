@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level= AccessLevel.PRIVATE)
-public class DoctorDetails {
+public class DoctorUpdate {
     String firstName;
     String lastName;
     String title;

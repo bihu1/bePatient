@@ -1,5 +1,6 @@
 package com.dryPepperoniStickTeam.bePatient.config.security;
 import com.dryPepperoniStickTeam.bePatient.config.cross.CorsConfiguration;
+import com.dryPepperoniStickTeam.bePatient.domain.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +24,6 @@ import org.springframework.security.oauth2.provider.request.DefaultOAuth2Request
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.web.session.SessionManagementFilter;
-import org.springframework.web.filter.CorsFilter;
 
 import javax.servlet.Filter;
 
@@ -36,11 +36,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private ClientDetailsService clientDetailsService;
 
 	@Autowired
-	private UserValidationService userValidationService;
+	private UserService userService;
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userValidationService)
+		auth.userDetailsService(userService)
 				.passwordEncoder(passwordEncoder());
 	}
 

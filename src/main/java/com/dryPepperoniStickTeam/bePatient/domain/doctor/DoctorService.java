@@ -1,18 +1,22 @@
 package com.dryPepperoniStickTeam.bePatient.domain.doctor;
 
+import com.dryPepperoniStickTeam.bePatient.common.mail.MailService;
 import com.dryPepperoniStickTeam.bePatient.domain.doctor.http.model.DoctorDetails;
+import com.dryPepperoniStickTeam.bePatient.domain.doctor.http.model.DoctorUpdate;
 import com.dryPepperoniStickTeam.bePatient.domain.doctor.http.model.DoctorView;
+import com.dryPepperoniStickTeam.bePatient.domain.profession.Profession;
+import com.dryPepperoniStickTeam.bePatient.domain.profession.ProfessionRepository;
 import com.dryPepperoniStickTeam.bePatient.domain.service.MedicalService;
 import com.dryPepperoniStickTeam.bePatient.domain.service.MedicalServiceRepository;
-import com.dryPepperoniStickTeam.bePatient.domain.visit.VisitRepository;
 import lombok.AllArgsConstructor;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-import static java.util.Arrays.asList;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.function.Consumer;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -20,23 +24,61 @@ public class DoctorService {
 
     private final DoctorRepository doctorRepository;
     private final MedicalServiceRepository medicalServiceRepository;
+    private final ProfessionRepository professionRepository;
+    private MailService mailService;
     private final MapperFacade mapper;
 
     public List<DoctorView> getAllDoctors(){
         List<Doctor> doctors = doctorRepository.findAll();
-        List<DoctorView> doctorViews = mapper.mapAsList(doctors, DoctorView.class);
-        //fixme change dummyContent to real content
-        doctorViews.forEach(dv -> dv.setServices(asList("dummyContent")));
-        return doctorViews;
+        return mapper.mapAsList(doctors, DoctorView.class);
     }
 
     public void addDoctor(DoctorDetails doctorDetails){
         Doctor doctor = mapper.map(doctorDetails, Doctor.class);
+
+        List<Profession> professions = professionRepository.findByIdIn(doctorDetails.getProfessions());
+        checkIfIndexesWerePulled(professions, doctorDetails.getServices())
+                .ifPresent(x -> x.accept("One of profession index is incorrect"));
+
         List<MedicalService> medicalServices = medicalServiceRepository.findByIdIn(doctorDetails.getServices());
-        if(medicalServices.size() != doctorDetails.getServices().size()){
+        checkIfIndexesWerePulled(medicalServices, doctorDetails.getServices())
+                .ifPresent(x -> x.accept("One of medical service index is incorrect"));
+
+        doctor.setMedicalServices(medicalServices);
+        doctor.setProfessions(professions);
+        doctor.setUsername(UUID.randomUUID().toString());
+        doctor.setPassword(UUID.randomUUID().toString());
+        doctorRepository.save(doctor);
+        mailService.sendSimpleMessage(doctor.getEmail(),"Rejestracja w bePatient",
+                "Gratulujemy utworzono Ci konto w aplikacji bePatient Twój login to"+doctor.getUsername()+"a hasło:"+doctor.getPassword()+"Login i hasło należy zmienić po pierwszym logowaniu \n bePatient Admin");
+    }
+
+    public void updateDoctor(long doctorId, DoctorUpdate doctorUpdate) {
+        if(!doctorRepository.existsById(doctorId)){
             throw new RuntimeException();
         }
+        Doctor doctor = mapper.map(doctorUpdate, Doctor.class);
+
+        List<MedicalService> medicalServices = medicalServiceRepository.findByIdIn(doctorUpdate.getServices());
+        checkIfIndexesWerePulled(medicalServices, doctorUpdate.getServices())
+                .ifPresent(x -> x.accept("One of medical service index is incorrect"));
+
+        List<Profession> professions = professionRepository.findByIdIn(doctorUpdate.getProfessions());
+        checkIfIndexesWerePulled(professions, doctorUpdate.getServices())
+                .ifPresent(x -> x.accept("One of profession index is incorrect"));
+
         doctor.setMedicalServices(medicalServices);
+        doctor.setProfessions(professions);
         doctorRepository.save(doctor);
+    }
+
+    private static<T,V> Optional<Consumer<String>> checkIfIndexesWerePulled(List<T> list1, List<V> list2){
+        if(list1 == null || list2 == null){
+            return Optional.empty();
+        }
+        if(list1.size() != list2.size()){
+           return Optional.of(i -> {throw new RuntimeException(i);});
+        }
+        return Optional.empty();
     }
 }

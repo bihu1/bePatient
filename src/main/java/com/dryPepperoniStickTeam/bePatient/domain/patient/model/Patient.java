@@ -1,6 +1,6 @@
 package com.dryPepperoniStickTeam.bePatient.domain.patient.model;
 
-import com.dryPepperoniStickTeam.bePatient.domain.user.User;
+import com.dryPepperoniStickTeam.bePatient.domain.user.model.User;
 import com.dryPepperoniStickTeam.bePatient.domain.visit.Visit;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -18,7 +18,6 @@ import java.util.List;
 @FieldDefaults(level= AccessLevel.PRIVATE)
 public class Patient extends User {
 
-    int pesel;
     String email;
     @OneToMany
     //@JoinColumn ditto

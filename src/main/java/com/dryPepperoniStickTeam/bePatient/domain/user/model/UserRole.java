@@ -1,4 +1,4 @@
-package com.dryPepperoniStickTeam.bePatient.domain.user;
+package com.dryPepperoniStickTeam.bePatient.domain.user.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

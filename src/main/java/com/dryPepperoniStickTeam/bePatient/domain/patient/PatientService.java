@@ -1,37 +1,34 @@
 package com.dryPepperoniStickTeam.bePatient.domain.patient;
 
+import com.dryPepperoniStickTeam.bePatient.common.mail.MailService;
 import com.dryPepperoniStickTeam.bePatient.domain.patient.http.model.PatientDetails;
 import com.dryPepperoniStickTeam.bePatient.domain.patient.model.Patient;
-import com.dryPepperoniStickTeam.bePatient.domain.user.UserRole;
+import com.dryPepperoniStickTeam.bePatient.domain.user.model.UserRole;
 import lombok.AllArgsConstructor;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class PatientService {
 
     private final PatientRepository patientRepository;
-    private JavaMailSender emailSender;
+    private MailService mailService;
     private final MapperFacade mapper;
 
     public void register(PatientDetails patientDetails){
         Patient patient = mapper.map(patientDetails, Patient.class);
-        patient.setRoles(asList(new UserRole("user")));
-        sendSimpleMessage("jaszczur.p@gmail.com","Aloha!", "password");
+        patient.setRoles(singletonList(new UserRole("user")));
+        if(patientRepository.existsByUsername(patient.getUsername())){
+            throw new RuntimeException();
+        }
         patientRepository.save(patient);
-    }
-
-    public void sendSimpleMessage(String to, String subject, String text) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(to);
-        message.setSubject(subject);
-        message.setText(text);
-        emailSender.send(message);
+        if(patient.getEmail() != null){
+            mailService.sendSimpleMessage(patient.getEmail(),"Rejestracja w bePatient",
+                    "Gratulujemy udało Ci się pomyślnie zarejestrować, teraz możesz w pełni korzystać z naszego systemu \n bePatient Admin");
+        }
     }
 }

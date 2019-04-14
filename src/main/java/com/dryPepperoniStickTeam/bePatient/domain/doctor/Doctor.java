@@ -1,20 +1,21 @@
 package com.dryPepperoniStickTeam.bePatient.domain.doctor;
 
+import com.dryPepperoniStickTeam.bePatient.domain.profession.Profession;
 import com.dryPepperoniStickTeam.bePatient.domain.service.MedicalService;
-import com.dryPepperoniStickTeam.bePatient.domain.user.User;
+import com.dryPepperoniStickTeam.bePatient.domain.user.model.User;
 import com.dryPepperoniStickTeam.bePatient.domain.visit.Visit;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @Entity
+@DynamicUpdate
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true, exclude = "visits")
@@ -26,8 +27,9 @@ public class Doctor extends User {
     String lastName;
     String title;
     String email;
-    @ElementCollection
-    List<String> professions;
+
+    @OneToMany
+    List<Profession> professions;
     @OneToMany
     //@JoinColumn check if it is needed
     List<Visit> visits;

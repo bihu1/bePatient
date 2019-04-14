@@ -1,6 +1,5 @@
-package com.dryPepperoniStickTeam.bePatient.domain.user;
+package com.dryPepperoniStickTeam.bePatient.domain.user.model;
 
-import com.dryPepperoniStickTeam.bePatient.domain.user.UserRole;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;

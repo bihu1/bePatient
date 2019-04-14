@@ -1,10 +1,8 @@
 package com.dryPepperoniStickTeam.bePatient.domain.doctor;
 
 import com.dryPepperoniStickTeam.bePatient.domain.doctor.http.model.DoctorDetails;
+import com.dryPepperoniStickTeam.bePatient.domain.doctor.http.model.DoctorUpdate;
 import com.dryPepperoniStickTeam.bePatient.domain.doctor.http.model.DoctorView;
-import com.dryPepperoniStickTeam.bePatient.domain.user.User;
-import com.dryPepperoniStickTeam.bePatient.domain.user.UserRepository;
-import com.dryPepperoniStickTeam.bePatient.domain.user.UserRole;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -15,8 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import static java.util.Arrays.asList;
 
 @RestController
 @RequestMapping("/api/doctors")
@@ -43,5 +39,16 @@ public class DoctorController {
     @ResponseStatus(HttpStatus.OK)
     public void addDoctor(@RequestBody DoctorDetails doctorDetails) {
         doctorService.addDoctor(doctorDetails);
+    }
+
+    @PutMapping("/{doctorId}")
+    @ApiOperation(value = "Add new doctor", authorizations = {@Authorization("Bearer <oAuth2>")} )
+    @ApiResponses({
+            @ApiResponse(code = 204, message = "Doctor updated"),
+            @ApiResponse(code = 404, message = "Doctor not found"),
+    })
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateDoctor(@PathVariable long doctorId, @RequestBody DoctorUpdate doctorUpdate) {
+        doctorService.updateDoctor(doctorId, doctorUpdate);
     }
 }

@@ -1,13 +1,15 @@
 package com.dryPepperoniStickTeam.bePatient.config.security;
 
-import java.util.*;
-
-import com.dryPepperoniStickTeam.bePatient.domain.user.User;
-import com.dryPepperoniStickTeam.bePatient.domain.user.UserRole;
+import com.dryPepperoniStickTeam.bePatient.domain.user.model.User;
+import com.dryPepperoniStickTeam.bePatient.domain.user.model.UserRole;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class SecurityUserDetails implements UserDetails {
 
