@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @FieldDefaults(level= AccessLevel.PRIVATE)
 public class DoctorView {
+    long id;
     String firstName;
     String lastName;
     String title;

@@ -2,6 +2,7 @@ package com.dryPepperoniStickTeam.bePatient.config.security;
 
 import com.dryPepperoniStickTeam.bePatient.domain.user.model.User;
 import com.dryPepperoniStickTeam.bePatient.domain.user.model.UserRole;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,13 +12,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@Data
 public class SecurityUserDetails implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
     private String password;
     private String username;
+    private long id;
 
     public SecurityUserDetails(User user) {
+        this.id = user.getId();
         this.username = user.getUsername();
         this.password = new BCryptPasswordEncoder().encode(user.getPassword());
         this.authorities = translateRoles(user.getRoles());

@@ -4,7 +4,6 @@ import com.dryPepperoniStickTeam.bePatient.domain.patient.http.model.PatientDeta
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import io.swagger.annotations.Authorization;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +18,7 @@ public class PatientController {
 
     private final PatientService patientService;
 
-    @PostMapping("registration")
+    @PostMapping("/registration")
     @ApiOperation(value="Register new patient")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Created patient"),
@@ -28,5 +27,16 @@ public class PatientController {
     @ResponseStatus(code = HttpStatus.CREATED)
     public void register(@RequestBody @Valid PatientDetails patientDetails){
         patientService.register(patientDetails);
+    }
+
+    @PostMapping("/{patientId}/message")
+    @ApiOperation(value="Register new patient")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Send message"),
+            @ApiResponse(code = 400, message = "Request body is not correct")
+    })
+    @ResponseStatus(code = HttpStatus.CREATED)
+    public void register(@PathVariable String patientId, @RequestBody String message){
+        patientService.sendMailToReception(patientId, message);
     }
 }

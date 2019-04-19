@@ -31,4 +31,8 @@ public class PatientService {
                     "Gratulujemy udało Ci się pomyślnie zarejestrować, teraz możesz w pełni korzystać z naszego systemu \n bePatient Admin");
         }
     }
+
+    public void sendMailToReception(String patientId, String message){
+        mailService.sendSimpleMessage("bepatientclinic@gmail.com","Wiadomość od użytkownika","Uzytkownik"+patientId+" przesyla wiadomosc"+message);
+    }
 }

@@ -5,14 +5,16 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
 public class TokenController {
 
-    //@CrossOrigin(origins = "http://localhost:4000")
     @GetMapping("token")
     @ApiOperation(value = "Shit")
     @ApiResponses({
