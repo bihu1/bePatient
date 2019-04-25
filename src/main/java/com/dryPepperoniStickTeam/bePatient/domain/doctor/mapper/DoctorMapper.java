@@ -10,9 +10,9 @@ import ma.glasnost.orika.MapperFactory;
 public class DoctorMapper implements OrikaBeanMapping {
     @Override
     public void configure(MapperFactory mapperFactory) {
+
         mapperFactory.classMap(Doctor.class, DoctorView.class)
-                .field("medicalServices{service}","services")
-                .field("professions{name}","professions")
+                .field("medicalServices","services")
                 .byDefault()
                 .register();
     }

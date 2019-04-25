@@ -1,5 +1,7 @@
 package com.dryPepperoniStickTeam.bePatient.domain.doctor.http.model;
 
+import com.dryPepperoniStickTeam.bePatient.domain.profession.http.model.ProfessionView;
+import com.dryPepperoniStickTeam.bePatient.domain.service.http.model.MedicalServiceView;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,6 +19,6 @@ public class DoctorView {
     String firstName;
     String lastName;
     String title;
-    List<String> professions;
-    List<String> services;
+    List<ProfessionView> professions;
+    List<MedicalServiceView> services;
 }
