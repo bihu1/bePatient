@@ -9,6 +9,7 @@ import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,12 +29,12 @@ public class Doctor extends User {
     String title;
     String email;
 
-    @OneToMany
+    @ManyToMany
     List<Profession> professions;
     @OneToMany
     //@JoinColumn check if it is needed
     List<Visit> visits;
-    @OneToMany
+    @ManyToMany
     List<MedicalService> medicalServices;
 
     public void addVisit(Visit visit){

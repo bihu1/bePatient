@@ -8,10 +8,13 @@ import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.Authorization;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -26,8 +29,18 @@ public class VisitController {
             @ApiResponse(code = 200, message = "OK"),
     })
     @ResponseStatus(HttpStatus.OK)
-    public List<VisitView> getAllAvailableDoctorsVisits(@PathVariable long doctorId){
-        return visitService.getAllAvailableDoctorsVisits(doctorId);
+    public List<VisitView> getAllAvailableDoctorsVisits(@PathVariable long doctorId, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Optional<LocalDate> date){
+        return visitService.getAllAvailableDoctorsVisits(doctorId, date);
+    }
+
+    @GetMapping("/visits")
+    @ApiOperation(value = "Get all visits", authorizations = {@Authorization("Bearer <oAuth2>")})
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK"),
+    })
+    @ResponseStatus(HttpStatus.OK)
+    public List<VisitView> getAllVisits(){
+        return visitService.getAllVisits();
     }
 
     @PostMapping("/doctors/{doctorId}/visits")
@@ -42,7 +55,7 @@ public class VisitController {
         visitService.addDoctorAvailableVisit(doctorId, visitDetails);
     }
 
-    @GetMapping("/doctors/{doctorId}/visits/{visitId}")
+    @PostMapping("/doctors/{doctorId}/visits/{visitId}")
     @ApiOperation(value = "Reserve visit for patient", authorizations = {@Authorization("Bearer <oAuth2>")})
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),

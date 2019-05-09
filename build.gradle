@@ -35,6 +35,8 @@ dependencyManagement {
 
 		dependency group: 'org.spockframework', name: 'spock-core', version: '1.2-groovy-2.4'
 		dependency group: 'org.spockframework', name: 'spock-spring', version: '1.2-groovy-2.4'
+
+		dependency group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8', version: '2.9.6'
 	}
 }
 
@@ -44,13 +46,13 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+	implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8'
 	
 	implementation group: 'ma.glasnost.orika', name: 'orika-core'
 
 	implementation group: 'io.springfox', name: 'springfox-swagger2'
 	implementation group: 'io.springfox', name: 'springfox-swagger-ui'
-
-	implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8'
 
 	compileOnly 'org.projectlombok:lombok'
 

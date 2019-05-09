@@ -3,10 +3,6 @@ package com.dryPepperoniStickTeam.bePatient.domain.disease;
 import com.dryPepperoniStickTeam.bePatient.domain.disease.http.model.DiseaseDetails;
 import com.dryPepperoniStickTeam.bePatient.domain.disease.http.model.DiseaseUpdate;
 import com.dryPepperoniStickTeam.bePatient.domain.disease.http.model.DiseaseView;
-import com.dryPepperoniStickTeam.bePatient.domain.service.MedicalServiceService;
-import com.dryPepperoniStickTeam.bePatient.domain.service.http.model.MedicalServiceDetails;
-import com.dryPepperoniStickTeam.bePatient.domain.service.http.model.MedicalServiceUpdate;
-import com.dryPepperoniStickTeam.bePatient.domain.service.http.model.MedicalServiceView;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -26,7 +22,7 @@ public class DiseaseController {
 
     private final DiseaseService diseaseService;
 
-    @GetMapping("/diseases/(diseaseId)")
+    @GetMapping("/diseases/{diseaseId}")
     @ApiOperation(value="Get disease", authorizations = {@Authorization("Bearer <oAuth2>")})
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
@@ -60,7 +56,7 @@ public class DiseaseController {
         diseaseService.addDisease(diseaseDetails);
     }
 
-    @PutMapping("/diseases/(diseaseId)")
+    @PutMapping("/diseases/{diseaseId}")
     @ApiOperation(value="Add new disease", authorizations = {@Authorization("Bearer <oAuth2>")})
     @ApiResponses({
             @ApiResponse(code = 204, message = "Updated disease"),
@@ -75,7 +71,7 @@ public class DiseaseController {
         diseaseService.updateDisease(diseaseId, diseaseUpdate);
     }
 
-    @DeleteMapping("/disease/(diseaseId)")
+    @DeleteMapping("/disease/{diseaseId}")
     @ApiOperation(value="Delete disease", authorizations = {@Authorization("Bearer <oAuth2>")})
     @ApiResponses({
             @ApiResponse(code = 204, message = "Delete disease"),

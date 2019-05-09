@@ -15,7 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 @Transactional
@@ -40,9 +44,23 @@ public class VisitService {
         visitRepository.save(visit);
     }
 
-    public List<VisitView> getAllAvailableDoctorsVisits(long doctorId){
+    public List<VisitView> getAllAvailableDoctorsVisits(long doctorId, Optional<LocalDate> date){
         Doctor doctor = doctorRepository.findById(doctorId).orElseThrow(RuntimeException::new);
-        List<Visit> visits = visitRepository.findByDoctorAndPatient(doctor, null);
+        List<Visit> visits = visitRepository.findByDoctorAndPatient(doctor, null)
+                .stream()
+                .filter(v ->
+                        date.map(d -> v.getDateFrom()
+                                .toLocalDate()
+                                .equals(d)
+                        )
+                        .orElse(true)
+                )
+                .collect(toList());
+        return mapper.mapAsList(visits, VisitView.class);
+    }
+
+    public List<VisitView> getAllVisits(){
+        List<Visit> visits = visitRepository.findAll();
         return mapper.mapAsList(visits, VisitView.class);
     }
 

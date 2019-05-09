@@ -22,7 +22,7 @@ public class MedicalServiceController {
 
     private final MedicalServiceService medicalServiceService;
 
-    @GetMapping("/services/(serviceId)")
+    @GetMapping("/services/{serviceId}")
     @ApiOperation(value="Get medical service", authorizations = {@Authorization("Bearer <oAuth2>")})
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
@@ -56,7 +56,7 @@ public class MedicalServiceController {
         medicalServiceService.addMedicalService(medicalServiceDetails);
     }
 
-    @PutMapping("/services/(serviceId)")
+    @PutMapping("/services/{serviceId}")
     @ApiOperation(value="Add new medical service", authorizations = {@Authorization("Bearer <oAuth2>")})
     @ApiResponses({
             @ApiResponse(code = 204, message = "Updated medical service"),
@@ -71,7 +71,7 @@ public class MedicalServiceController {
         medicalServiceService.updateMedicalService(serviceId, medicalServiceUpdate);
     }
 
-    @DeleteMapping("/services/(serviceId)")
+    @DeleteMapping("/services/{serviceId}")
     @ApiOperation(value="Add new medical service", authorizations = {@Authorization("Bearer <oAuth2>")})
     @ApiResponses({
             @ApiResponse(code = 204, message = "Delete medical service"),

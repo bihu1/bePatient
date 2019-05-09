@@ -17,4 +17,5 @@ public class VisitView {
     long id;
     LocalDateTime dateFrom;
     LocalDateTime dateTo;
+    VisitStatus status;
 }

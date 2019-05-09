@@ -22,14 +22,14 @@ public class ProfessionController {
 
     private final ProfessionService professionService;
 
-    @GetMapping("/professions/(professionId)")
+    @GetMapping("/professions/{professionId}")
     @ApiOperation(value="Get profession", authorizations = {@Authorization("Bearer <oAuth2>")})
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 404, message = "Profession not found")
     })
     @ResponseStatus(code = HttpStatus.OK)
-    public ProfessionView getDiseases(
+    public ProfessionView getProfession(
             @PathVariable long professionId
     ){
        return professionService.getProfession(professionId);
@@ -41,7 +41,7 @@ public class ProfessionController {
             @ApiResponse(code = 200, message = "OK"),
     })
     @ResponseStatus(code = HttpStatus.OK)
-    public List<ProfessionView> getDiseases(){
+    public List<ProfessionView> getProfession(){
         return professionService.getAllProfessions();
     }
 
@@ -52,11 +52,11 @@ public class ProfessionController {
             @ApiResponse(code = 400, message = "Request body is not correct")
     })
     @ResponseStatus(code = HttpStatus.CREATED)
-    public void addDisease(@RequestBody @Valid ProfessionDetails professionDetails){
+    public void addProfession(@RequestBody @Valid ProfessionDetails professionDetails){
         professionService.addProfession(professionDetails);
     }
 
-    @PutMapping("/professions/(professionId)")
+    @PutMapping("/professions/{professionId}")
     @ApiOperation(value="Update profession with given id", authorizations = {@Authorization("Bearer <oAuth2>")})
     @ApiResponses({
             @ApiResponse(code = 204, message = "Updated profession"),
@@ -64,21 +64,21 @@ public class ProfessionController {
             @ApiResponse(code = 404, message = "Not found")
     })
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void updateDisease(
+    public void updateProfession(
             @PathVariable long professionId,
             @RequestBody @Valid ProfessionUpdate professionUpdate
     ){
         professionService.updateProfession(professionId, professionUpdate);
     }
 
-    @DeleteMapping("/professions/(professionId)")
+    @DeleteMapping("/professions/{professionId}")
     @ApiOperation(value="Delete profession", authorizations = {@Authorization("Bearer <oAuth2>")})
     @ApiResponses({
             @ApiResponse(code = 204, message = "Profession deleted"),
             @ApiResponse(code = 404, message = "Not found")
     })
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void deleteDisease(
+    public void deleteProfession(
             @PathVariable long professionId
     ){
         professionService.deleteProfession(professionId);
