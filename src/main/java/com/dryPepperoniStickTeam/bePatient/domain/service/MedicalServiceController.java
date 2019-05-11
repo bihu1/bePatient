@@ -10,6 +10,7 @@ import io.swagger.annotations.Authorization;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -36,7 +37,7 @@ public class MedicalServiceController {
     }
 
     @GetMapping("/services")
-    @ApiOperation(value="Get all services", authorizations = {@Authorization("Bearer <oAuth2>")})
+    @ApiOperation(value="Get all medical services", authorizations = {@Authorization("Bearer <oAuth2>")})
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
     })
@@ -52,19 +53,21 @@ public class MedicalServiceController {
             @ApiResponse(code = 400, message = "Request body is not correct")
     })
     @ResponseStatus(code = HttpStatus.CREATED)
+    @Secured("ROLE_ADMIN")
     public void addMedicalService(@RequestBody @Valid MedicalServiceDetails medicalServiceDetails){
         medicalServiceService.addMedicalService(medicalServiceDetails);
     }
 
     @PutMapping("/services/{serviceId}")
-    @ApiOperation(value="Add new medical service", authorizations = {@Authorization("Bearer <oAuth2>")})
+    @ApiOperation(value="Update medical service", authorizations = {@Authorization("Bearer <oAuth2>")})
     @ApiResponses({
             @ApiResponse(code = 204, message = "Updated medical service"),
             @ApiResponse(code = 400, message = "Request body is not correct"),
             @ApiResponse(code = 404, message = "Not found")
     })
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void addMedicalService(
+    @Secured("ROLE_ADMIN")
+    public void updateMedicalService(
             @PathVariable long serviceId,
             @RequestBody @Valid MedicalServiceUpdate medicalServiceUpdate
     ){
@@ -72,12 +75,13 @@ public class MedicalServiceController {
     }
 
     @DeleteMapping("/services/{serviceId}")
-    @ApiOperation(value="Add new medical service", authorizations = {@Authorization("Bearer <oAuth2>")})
+    @ApiOperation(value="Delete medical service", authorizations = {@Authorization("Bearer <oAuth2>")})
     @ApiResponses({
             @ApiResponse(code = 204, message = "Delete medical service"),
             @ApiResponse(code = 404, message = "Not found")
     })
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    @Secured("ROLE_ADMIN")
     public void deleteMedicalService(
             @PathVariable long serviceId
     ){

@@ -10,6 +10,7 @@ import io.swagger.annotations.Authorization;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -52,6 +53,7 @@ public class ProfessionController {
             @ApiResponse(code = 400, message = "Request body is not correct")
     })
     @ResponseStatus(code = HttpStatus.CREATED)
+    @Secured("ROLE_ADMIN")
     public void addProfession(@RequestBody @Valid ProfessionDetails professionDetails){
         professionService.addProfession(professionDetails);
     }
@@ -64,6 +66,7 @@ public class ProfessionController {
             @ApiResponse(code = 404, message = "Not found")
     })
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    @Secured("ROLE_ADMIN")
     public void updateProfession(
             @PathVariable long professionId,
             @RequestBody @Valid ProfessionUpdate professionUpdate
@@ -78,6 +81,7 @@ public class ProfessionController {
             @ApiResponse(code = 404, message = "Not found")
     })
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    @Secured("ROLE_ADMIN")
     public void deleteProfession(
             @PathVariable long professionId
     ){

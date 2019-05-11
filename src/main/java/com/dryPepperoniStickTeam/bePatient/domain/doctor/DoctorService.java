@@ -8,6 +8,7 @@ import com.dryPepperoniStickTeam.bePatient.domain.profession.Profession;
 import com.dryPepperoniStickTeam.bePatient.domain.profession.ProfessionRepository;
 import com.dryPepperoniStickTeam.bePatient.domain.service.MedicalService;
 import com.dryPepperoniStickTeam.bePatient.domain.service.MedicalServiceRepository;
+import com.dryPepperoniStickTeam.bePatient.domain.user.RoleRepository;
 import lombok.AllArgsConstructor;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +19,17 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+import static java.util.Collections.singletonList;
+
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class DoctorService {
 
     private final DoctorRepository doctorRepository;
+    private final RoleRepository roleRepository;
     private final MedicalServiceRepository medicalServiceRepository;
     private final ProfessionRepository professionRepository;
-    private MailService mailService;
+    private final MailService mailService;
     private final MapperFacade mapper;
 
     public List<DoctorView> getAllDoctors(){
@@ -37,7 +41,7 @@ public class DoctorService {
         Doctor doctor = mapper.map(doctorDetails, Doctor.class);
 
         List<Profession> professions = professionRepository.findByIdIn(doctorDetails.getProfessions());
-        checkIfIndexesWerePulled(professions, doctorDetails.getServices())
+        checkIfIndexesWerePulled(professions, doctorDetails.getProfessions())
                 .ifPresent(x -> x.accept("One of profession index is incorrect"));
 
         List<MedicalService> medicalServices = medicalServiceRepository.findByIdIn(doctorDetails.getServices());
@@ -48,6 +52,7 @@ public class DoctorService {
         doctor.setProfessions(professions);
         doctor.setUsername(UUID.randomUUID().toString());
         doctor.setPassword(UUID.randomUUID().toString());
+        doctor.setRoles(singletonList(roleRepository.findByRole("ROLE_DOCTOR")));
         doctorRepository.save(doctor);
         mailService.sendSimpleMessage(doctor.getEmail(),"Rejestracja w bePatient",
                 "Gratulujemy utworzono Ci konto w aplikacji bePatient Twój login to"+doctor.getUsername()+"a hasło:"+doctor.getPassword()+"Login i hasło należy zmienić po pierwszym logowaniu \n bePatient Admin");

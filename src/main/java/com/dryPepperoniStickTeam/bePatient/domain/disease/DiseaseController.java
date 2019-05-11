@@ -10,6 +10,7 @@ import io.swagger.annotations.Authorization;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -52,18 +53,20 @@ public class DiseaseController {
             @ApiResponse(code = 400, message = "Request body is not correct")
     })
     @ResponseStatus(code = HttpStatus.CREATED)
+    @Secured("ROLE_ADMIN")
     public void addDisease(@RequestBody @Valid DiseaseDetails diseaseDetails){
         diseaseService.addDisease(diseaseDetails);
     }
 
     @PutMapping("/diseases/{diseaseId}")
-    @ApiOperation(value="Add new disease", authorizations = {@Authorization("Bearer <oAuth2>")})
+    @ApiOperation(value="Update disease by Id", authorizations = {@Authorization("Bearer <oAuth2>")})
     @ApiResponses({
             @ApiResponse(code = 204, message = "Updated disease"),
             @ApiResponse(code = 400, message = "Request body is not correct"),
             @ApiResponse(code = 404, message = "Not found")
     })
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    @Secured("ROLE_ADMIN")
     public void updateDisease(
             @PathVariable long diseaseId,
             @RequestBody @Valid DiseaseUpdate diseaseUpdate
@@ -78,6 +81,7 @@ public class DiseaseController {
             @ApiResponse(code = 404, message = "Not found")
     })
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    @Secured("ROLE_ADMIN")
     public void deleteDisease(
             @PathVariable long diseaseId
     ){

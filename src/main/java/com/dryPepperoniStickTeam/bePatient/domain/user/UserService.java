@@ -3,14 +3,18 @@ package com.dryPepperoniStickTeam.bePatient.domain.user;
 import com.dryPepperoniStickTeam.bePatient.config.security.SecurityUserDetails;
 import com.dryPepperoniStickTeam.bePatient.domain.user.http.model.ChangePasswordRequest;
 import com.dryPepperoniStickTeam.bePatient.domain.user.http.model.ChangeUsernameRequest;
+import com.dryPepperoniStickTeam.bePatient.domain.user.http.model.UserView;
 import com.dryPepperoniStickTeam.bePatient.domain.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import static java.util.stream.Collectors.toList;
 
 
 @Service
@@ -42,6 +46,17 @@ public class UserService implements UserDetailsService {
             throw new RuntimeException();
         }
         user.setUsername(changeUsernameRequest.getNewUsername());
+    }
+
+    public UserView getMe(SecurityUserDetails userDetails){
+        UserView userView = new UserView();
+        userView.setId(userDetails.getId());
+        userView.setRoles( userDetails.getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(toList())
+        );
+        return userView;
     }
 
     private User getUserByUsername(String username){

@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 public class TokenController {
 
     @GetMapping("token")
-    @ApiOperation(value = "Shit")
+    @ApiOperation(value = "Get token")
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
     })

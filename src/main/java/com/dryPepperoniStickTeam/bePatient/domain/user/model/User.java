@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import java.util.List;
@@ -22,6 +23,10 @@ public abstract class User {
     long id;
     String username;
     String password;
-    @ElementCollection
+    @ManyToMany
     List<UserRole> roles;
+
+    public void setPassword(String password){
+       this.password = new BCryptPasswordEncoder().encode(password);
+    }
 }

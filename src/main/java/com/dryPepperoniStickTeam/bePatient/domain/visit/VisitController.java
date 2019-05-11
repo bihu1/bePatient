@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -44,13 +45,14 @@ public class VisitController {
     }
 
     @PostMapping("/doctors/{doctorId}/visits")
-    @ApiOperation(value = "Get all available doctor's visits", authorizations = {@Authorization("Bearer <oAuth2>")})
+    @ApiOperation(value = "Add available visit to given doctor", authorizations = {@Authorization("Bearer <oAuth2>")})
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 200, message = "Bad request"),
             @ApiResponse(code = 404, message = "Doctor not found"),
     })
     @ResponseStatus(HttpStatus.OK)
+    @Secured("ROLE_ADMIN")
     public void addDoctorAvailableVisit(@PathVariable long doctorId, @RequestBody VisitDetails visitDetails){
         visitService.addDoctorAvailableVisit(doctorId, visitDetails);
     }
@@ -61,6 +63,7 @@ public class VisitController {
             @ApiResponse(code = 200, message = "OK"),
     })
     @ResponseStatus(HttpStatus.OK)
+    @Secured("ROLE_PATIENT")
     public void reserveVisitByPanelist(
             @PathVariable long doctorId,
             @PathVariable long visitId,
@@ -87,19 +90,21 @@ public class VisitController {
             @ApiResponse(code = 404, message = "Not found"),
     })
     @ResponseStatus(HttpStatus.OK)
+    @Secured({ "ROLE_DOCTOR", "ROLE_ADMIN" })
     public void assignDiseaseAndServicesToVisit(@PathVariable long visitId, @RequestBody DiseaseAndServicesIdsHolder diseaseAndServicesIdsHolder){
          visitService.assignDiseaseAndMedicalServices(visitId, diseaseAndServicesIdsHolder);
     }
 
     @PutMapping("/visits/{visitId}")
-    @ApiOperation(value = "Assign diseases and medical services to visit", authorizations = {@Authorization("Bearer <oAuth2>")})
+    @ApiOperation(value = "Change visit status", authorizations = {@Authorization("Bearer <oAuth2>")})
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 404, message = "Not found"),
     })
     @ResponseStatus(HttpStatus.OK)
-    public void changeVisitStatus(@PathVariable long visitId ,@RequestParam VisitStatus status){
+    @Secured({ "ROLE_DOCTOR", "ROLE_ADMIN" })
+    public void changeVisitStatus(@PathVariable long visitId, @RequestParam VisitStatus status){
         visitService.changeVisitStatus(visitId, status);
     }
 }

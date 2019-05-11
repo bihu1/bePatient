@@ -6,11 +6,11 @@ import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 @Data
 public class SecurityUserDetails implements UserDetails {
@@ -23,22 +23,14 @@ public class SecurityUserDetails implements UserDetails {
     public SecurityUserDetails(User user) {
         this.id = user.getId();
         this.username = user.getUsername();
-        this.password = new BCryptPasswordEncoder().encode(user.getPassword());
+        this.password = user.getPassword();
         this.authorities = translateRoles(user.getRoles());
     }
 
-    public SecurityUserDetails(){}
-
     private Collection<? extends GrantedAuthority> translateRoles(List<UserRole> roles) {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        for (UserRole role : roles) {
-            String roleName = role.getRole().toUpperCase();
-            if (!roleName.startsWith("ROLE_")) {
-                roleName = "ROLE_" + roleName;
-            }
-            authorities.add(new SimpleGrantedAuthority(roleName));
-        }
-        return authorities;
+        return roles.stream()
+                .map(r -> new SimpleGrantedAuthority(r.getRole()))
+                .collect(toList());
     }
 
 
