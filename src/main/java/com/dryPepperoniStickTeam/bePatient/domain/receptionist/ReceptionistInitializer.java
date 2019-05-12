@@ -20,6 +20,7 @@ public class ReceptionistInitializer {
     @Autowired
     RoleRepository roleRepository;
 
+
     private void roleInitializer(){
         if(roleRepository.findAll().size() == 0){
             roleRepository.saveAll(asList(

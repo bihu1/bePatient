@@ -66,6 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				//.cors().disable()
 				.authorizeRequests()
 				.antMatchers("/patient/registration").permitAll()
+				.antMatchers("/initializing/test/data").permitAll()
 				.antMatchers("/test").permitAll()
 				.antMatchers("/token").permitAll()
 				.antMatchers("/oauth/token").permitAll()

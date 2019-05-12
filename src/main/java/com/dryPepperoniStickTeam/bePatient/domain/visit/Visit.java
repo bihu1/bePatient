@@ -32,8 +32,8 @@ public class Visit {
     Doctor doctor;
     @ManyToOne
     Patient patient;
-    @OneToMany
+    @ManyToMany
     List<Disease> diseases;
-    @OneToMany
+    @ManyToMany
     List<MedicalService> medicalServices;
 }
