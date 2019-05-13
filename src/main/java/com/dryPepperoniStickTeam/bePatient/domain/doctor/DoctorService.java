@@ -37,6 +37,11 @@ public class DoctorService {
         return mapper.mapAsList(doctors, DoctorView.class);
     }
 
+    public DoctorView getDoctor(long id){
+        Doctor doctor = doctorRepository.findById(id).orElseThrow(RuntimeException::new);
+        return mapper.map(doctor, DoctorView.class);
+    }
+
     public void addDoctor(DoctorDetails doctorDetails){
         Doctor doctor = mapper.map(doctorDetails, Doctor.class);
 

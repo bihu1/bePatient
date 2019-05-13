@@ -16,11 +16,21 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/patient")
+@RequestMapping("/patients")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class PatientController {
 
     private final PatientService patientService;
+
+    @GetMapping
+    @ApiOperation(value="Get all patients")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK"),
+    })
+    @ResponseStatus(code = HttpStatus.OK)
+    public void getAllPatients(){
+        patientService.getAllPatients();
+    }
 
     @PostMapping("/registration")
     @ApiOperation(value="Register new patient")

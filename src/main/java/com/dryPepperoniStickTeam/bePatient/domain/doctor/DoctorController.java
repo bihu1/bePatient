@@ -32,6 +32,17 @@ public class DoctorController {
         return doctorService.getAllDoctors();
     }
 
+    @GetMapping("/{doctorId}")
+    @ApiOperation(value = "Get doctor", authorizations = {@Authorization("Bearer <oAuth2>")})
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 404, message = "Doctor not found"),
+    })
+    @ResponseStatus(HttpStatus.OK)
+    public DoctorView getAllDoctors(@PathVariable long doctorId) {
+        return doctorService.getDoctor(doctorId);
+    }
+
     @PostMapping
     @ApiOperation(value = "Add new doctor", authorizations = {@Authorization("Bearer <oAuth2>")} )
     @ApiResponses({

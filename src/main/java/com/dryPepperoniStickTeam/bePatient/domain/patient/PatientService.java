@@ -2,12 +2,15 @@ package com.dryPepperoniStickTeam.bePatient.domain.patient;
 
 import com.dryPepperoniStickTeam.bePatient.common.mail.MailService;
 import com.dryPepperoniStickTeam.bePatient.domain.patient.http.model.PatientDetails;
+import com.dryPepperoniStickTeam.bePatient.domain.patient.http.model.PatientView;
 import com.dryPepperoniStickTeam.bePatient.domain.patient.model.Patient;
 import com.dryPepperoniStickTeam.bePatient.domain.user.RoleRepository;
 import lombok.AllArgsConstructor;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 import static java.util.Collections.singletonList;
 
@@ -19,6 +22,11 @@ public class PatientService {
     private final RoleRepository roleRepository;
     private final MailService mailService;
     private final MapperFacade mapper;
+
+    public List<PatientView> getAllPatients(){
+        List<Patient> patients = patientRepository.findAll();
+        return mapper.mapAsList(patients, PatientView.class);
+    }
 
     public void register(PatientDetails patientDetails){
         Patient patient = mapper.map(patientDetails, Patient.class);
