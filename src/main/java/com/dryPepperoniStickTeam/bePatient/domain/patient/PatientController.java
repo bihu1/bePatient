@@ -2,9 +2,11 @@ package com.dryPepperoniStickTeam.bePatient.domain.patient;
 
 import com.dryPepperoniStickTeam.bePatient.config.security.SecurityUserDetails;
 import com.dryPepperoniStickTeam.bePatient.domain.patient.http.model.PatientDetails;
+import com.dryPepperoniStickTeam.bePatient.domain.patient.http.model.PatientView;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.Authorization;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,25 +16,26 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/patients")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class PatientController {
 
     private final PatientService patientService;
 
-    @GetMapping
-    @ApiOperation(value="Get all patients")
+    @GetMapping("api/patients")
+    @ApiOperation(value="Get all patients", authorizations = {@Authorization("Bearer <oAuth2>")})
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
     })
     @ResponseStatus(code = HttpStatus.OK)
-    public void getAllPatients(){
-        patientService.getAllPatients();
+    @Secured("ROLE_ADMIN")
+    public List<PatientView> getAllPatients(){
+        return patientService.getAllPatients();
     }
 
-    @PostMapping("/registration")
+    @PostMapping("patients/registration")
     @ApiOperation(value="Register new patient")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Created patient"),
@@ -43,8 +46,8 @@ public class PatientController {
         patientService.register(patientDetails);
     }
 
-    @PostMapping("/message")
-    @ApiOperation(value="Send message to Reception, it figure out current logged user id")
+    @PostMapping("api/patient/message")
+    @ApiOperation(value="Send message to Reception, it figure out current logged user id", authorizations = {@Authorization("Bearer <oAuth2>")})
     @ApiResponses({
             @ApiResponse(code = 200, message = "Send message"),
             @ApiResponse(code = 400, message = "Request body is not correct")

@@ -60,7 +60,7 @@ public class DoctorService {
         doctor.setRoles(singletonList(roleRepository.findByRole("ROLE_DOCTOR")));
         doctorRepository.save(doctor);
         mailService.sendSimpleMessage(doctor.getEmail(),"Rejestracja w bePatient",
-                "Gratulujemy utworzono Ci konto w aplikacji bePatient Twój login to"+doctor.getUsername()+"a hasło:"+doctor.getPassword()+"Login i hasło należy zmienić po pierwszym logowaniu \n bePatient Admin");
+                "Gratulujemy utworzono Ci konto w aplikacji bePatient Twój: \n login: "+doctor.getUsername()+" \n hasło:"+doctor.getPassword()+"\nLogin i hasło należy zmienić po pierwszym logowaniu. \n bePatient Admin");
     }
 
     public void updateDoctor(long doctorId, DoctorUpdate doctorUpdate) {
