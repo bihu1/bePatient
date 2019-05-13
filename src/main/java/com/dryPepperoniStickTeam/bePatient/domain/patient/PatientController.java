@@ -16,7 +16,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/patients")
+@RequestMapping("/api/patients")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class PatientController {
 
