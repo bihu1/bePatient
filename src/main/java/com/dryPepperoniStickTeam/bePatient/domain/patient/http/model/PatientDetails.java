@@ -16,6 +16,12 @@ import javax.validation.constraints.Pattern;
 public class PatientDetails {
 
     @NotEmpty
+    String firstName;
+
+    @NotEmpty
+    String lastName;
+
+    @NotEmpty
     @Pattern(regexp = "[0-9]{4}[0-3]{1}[0-9}{1}][0-9]{5}")
     String pesel;
 

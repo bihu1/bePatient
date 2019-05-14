@@ -5,7 +5,6 @@ import com.dryPepperoniStickTeam.bePatient.domain.user.UserRepository;
 import com.dryPepperoniStickTeam.bePatient.domain.user.model.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import static java.util.Arrays.asList;
@@ -37,7 +36,7 @@ public class ReceptionistInitializer {
         Receptionist receptionist = new Receptionist(
                 0,
                 "Basia",
-                new BCryptPasswordEncoder().encode("xvcf123"),
+                "xvcf123",
                 singletonList(roleRepository.findByRole("ROLE_ADMIN"))
         );
         if(!userRepository.existsByUsername("Basia")){

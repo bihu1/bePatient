@@ -75,11 +75,11 @@ public class InitializerController {
 
         diseaseRepository.saveAll(asList(disease, disease1, disease2, disease3, disease4));
 
-        Patient patient = new Patient(0, "90011241122", "alaMakota1", singletonList(roleRepository.findByRole("ROLE_PATIENT")), "andrzej@gmail.com", null);
-        Patient patient1 = new Patient(0, "91011241122", "alaMakota2", singletonList(roleRepository.findByRole("ROLE_PATIENT")), "andrzej@gmail.com", null);
-        Patient patient2 = new Patient(0, "92011241122", "alaMakota3", singletonList(roleRepository.findByRole("ROLE_PATIENT")), "andrzej@gmail.com", null);
-        Patient patient3 = new Patient(0, "93011241122", "alaMakota4", singletonList(roleRepository.findByRole("ROLE_PATIENT")), "andrzej@gmail.com", null);
-        Patient patient4 = new Patient(0, "94011241122", "alaMakota5", singletonList(roleRepository.findByRole("ROLE_PATIENT")), "andrzej@gmail.com", null);
+        Patient patient = new Patient(0, "90011241122", "alaMakota1", singletonList(roleRepository.findByRole("ROLE_PATIENT")), "andrzej@gmail.com", null, "Jan", "Kozak");
+        Patient patient1 = new Patient(0, "91011241122", "alaMakota2", singletonList(roleRepository.findByRole("ROLE_PATIENT")), "andrzej@gmail.com", null, "Andrzej", "Lumpacz");
+        Patient patient2 = new Patient(0, "92011241122", "alaMakota3", singletonList(roleRepository.findByRole("ROLE_PATIENT")), "andrzej@gmail.com", null, "Beata", "Rozstowska");
+        Patient patient3 = new Patient(0, "93011241122", "alaMakota4", singletonList(roleRepository.findByRole("ROLE_PATIENT")), "andrzej@gmail.com", null, "Kamil", "Kominiok");
+        Patient patient4 = new Patient(0, "94011241122", "alaMakota5", singletonList(roleRepository.findByRole("ROLE_PATIENT")), "andrzej@gmail.com", null, "Sebastian", "Korzenny");
 
         Doctor doctor = new Doctor(0, "doctorHouse", "kotMaAle", singletonList(roleRepository.findByRole("ROLE_DOCTOR")),
                 "Aleksander", "Ziółko", "dr n. md.", "ziolko@gmail.com" , asList(profession, profession3), null, asList(medicalService, medicalService1));

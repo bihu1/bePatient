@@ -56,11 +56,12 @@ public class DoctorService {
         doctor.setMedicalServices(medicalServices);
         doctor.setProfessions(professions);
         doctor.setUsername(UUID.randomUUID().toString());
-        doctor.setPassword(UUID.randomUUID().toString());
+        String doctorPassword = UUID.randomUUID().toString();
+        doctor.setPassword(doctorPassword);
         doctor.setRoles(singletonList(roleRepository.findByRole("ROLE_DOCTOR")));
         doctorRepository.save(doctor);
         mailService.sendSimpleMessage(doctor.getEmail(),"Rejestracja w bePatient",
-                "Gratulujemy utworzono Ci konto w aplikacji bePatient Twój: \n login: "+doctor.getUsername()+" \n hasło:"+doctor.getPassword()+"\nLogin i hasło należy zmienić po pierwszym logowaniu. \n bePatient Admin");
+                "Gratulujemy utworzono Ci konto w aplikacji bePatient Twój: \n login: "+doctor.getUsername()+" \n hasło:"+doctorPassword+"\nLogin i hasło należy zmienić po pierwszym logowaniu. \n bePatient Admin");
     }
 
     public void updateDoctor(long doctorId, DoctorUpdate doctorUpdate) {
