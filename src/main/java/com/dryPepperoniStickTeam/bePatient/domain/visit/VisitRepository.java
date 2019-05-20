@@ -12,6 +12,7 @@ import java.util.Optional;
 public interface VisitRepository extends CrudRepository<Visit, Long> {
     List<Visit> findByDoctorAndPatient(Doctor doctor, Patient patient);
     List<Visit> findByPatient(Patient patient);
+    List<Visit> findByDoctor(Doctor doctor);
     List<Visit> findAll();
     Optional<Visit> findByIdAndDoctor(long id, Doctor doctor);
 }

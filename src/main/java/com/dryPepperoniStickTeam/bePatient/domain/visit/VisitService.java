@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import static com.dryPepperoniStickTeam.bePatient.domain.visit.FilterVisitStatus.AVAILABLE;
 import static java.util.stream.Collectors.toList;
 
 @Service
@@ -44,9 +45,9 @@ public class VisitService {
         visitRepository.save(visit);
     }
 
-    public List<VisitView> getAllAvailableDoctorsVisits(long doctorId, Optional<LocalDate> date){
+    public List<VisitView> getAllDoctorsVisitsByStatus(long doctorId, Optional<LocalDate> date, FilterVisitStatus patternVisitStatus){
         Doctor doctor = doctorRepository.findById(doctorId).orElseThrow(RuntimeException::new);
-        List<Visit> visits = visitRepository.findByDoctorAndPatient(doctor, null)
+        List<Visit> visits = (patternVisitStatus == AVAILABLE ? visitRepository.findByDoctorAndPatient(doctor, null) : visitRepository.findByDoctor(doctor))
                 .stream()
                 .filter(v ->
                         date.map(d -> v.getDateFrom()

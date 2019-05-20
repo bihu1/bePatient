@@ -30,8 +30,12 @@ public class VisitController {
             @ApiResponse(code = 200, message = "OK"),
     })
     @ResponseStatus(HttpStatus.OK)
-    public List<VisitView> getAllAvailableDoctorsVisits(@PathVariable long doctorId, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Optional<LocalDate> date){
-        return visitService.getAllAvailableDoctorsVisits(doctorId, date);
+    public List<VisitView> getAllDoctorsVisitsByStatus(
+            @PathVariable long doctorId,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Optional<LocalDate> date,
+            @RequestParam FilterVisitStatus patternVisitStatus
+    ){
+        return visitService.getAllDoctorsVisitsByStatus(doctorId, date, patternVisitStatus);
     }
 
     @GetMapping("/visits")

@@ -19,7 +19,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 	private static String REALM="CRM_REALM";
-	private static final int FIFTY_MINUTES = 60 * 15;
+	private static final int TREE_HOURS = 60 * 60 * 3;
 	private static final int THIRTY_DAYS = 60 * 60 * 24 * 30;
 
 	@Autowired
@@ -46,7 +46,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 				.authorizedGrantTypes("password", "refresh_token")
 				.authorities("ROLE_CLIENT", "ROLE_TRUSTED_CLIENT")
 				.scopes("read", "write", "trust")
-				.accessTokenValiditySeconds(FIFTY_MINUTES)
+				.accessTokenValiditySeconds(TREE_HOURS)
 				.refreshTokenValiditySeconds(THIRTY_DAYS);
 	}
 

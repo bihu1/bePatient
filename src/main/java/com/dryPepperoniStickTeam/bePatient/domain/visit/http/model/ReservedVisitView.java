@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @FieldDefaults(level= AccessLevel.PRIVATE)
 public class ReservedVisitView {
     LocalDateTime date;
+    Long patientId;
     int cost;
     String doctorFirstName;
     String doctorLastName;

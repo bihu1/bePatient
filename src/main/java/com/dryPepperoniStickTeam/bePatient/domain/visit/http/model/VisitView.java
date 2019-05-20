@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 public class VisitView {
 
     long id;
+    Long patientId;
     LocalDateTime dateFrom;
     LocalDateTime dateTo;
     VisitStatus status;
