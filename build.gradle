@@ -37,6 +37,8 @@ dependencyManagement {
 		dependency group: 'org.spockframework', name: 'spock-spring', version: '1.2-groovy-2.4'
 
 		dependency group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8', version: '2.9.6'
+
+		dependency group: 'com.opencsv' ,name:'opencsv' ,version: '4.0'
 	}
 }
 
@@ -53,6 +55,8 @@ dependencies {
 
 	implementation group: 'io.springfox', name: 'springfox-swagger2'
 	implementation group: 'io.springfox', name: 'springfox-swagger-ui'
+
+	implementation group: 'com.opencsv' ,name:'opencsv'
 
 	compileOnly 'org.projectlombok:lombok'
 

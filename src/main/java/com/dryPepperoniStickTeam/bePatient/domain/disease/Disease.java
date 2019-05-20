@@ -1,5 +1,6 @@
 package com.dryPepperoniStickTeam.bePatient.domain.disease;
 
+import com.opencsv.bean.CsvBindByPosition;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,5 +24,6 @@ public class Disease {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     long id;
+    @CsvBindByPosition(position = 0)
     String name;
 }
