@@ -76,6 +76,7 @@ public class VisitService {
         Visit visit = visitRepository.findByIdAndDoctor(visitId, doctor).orElseThrow(RuntimeException::new);
         Patient patient = patientRepository.findById(patientId).orElseThrow(RuntimeException::new);
         visit.setPatient(patient);
+        visit.setStatus(VisitStatus.RESERVED);
         patient.getVisits().add(visit);
         //fixme check if save is needed
     }
