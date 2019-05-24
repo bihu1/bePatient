@@ -28,6 +28,11 @@ public class PatientService {
         return mapper.mapAsList(patients, PatientView.class);
     }
 
+    public PatientView getPatient(long patientId){
+        Patient patient = patientRepository.findById(patientId).orElseThrow(RuntimeException::new);
+        return mapper.map(patient, PatientView.class);
+    }
+
     public void register(PatientDetails patientDetails){
         Patient patient = mapper.map(patientDetails, Patient.class);
         patient.setRoles(singletonList(roleRepository.findByRole("ROLE_PATIENT")));

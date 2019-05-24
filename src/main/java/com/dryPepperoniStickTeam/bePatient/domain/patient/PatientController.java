@@ -47,6 +47,16 @@ public class PatientController {
         return patientService.getAllPatients();
     }
 
+    @GetMapping("api/patients/{patientId}")
+    @ApiOperation(value="Get all patients", authorizations = {@Authorization("Bearer <oAuth2>")})
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK"),
+    })
+    @ResponseStatus(code = HttpStatus.OK)
+    public PatientView getPatient(@PathVariable long patientId){
+        return patientService.getPatient(patientId);
+    }
+
     @PostMapping("patients/registration")
     @ApiOperation(value="Register new patient")
     @ApiResponses({
