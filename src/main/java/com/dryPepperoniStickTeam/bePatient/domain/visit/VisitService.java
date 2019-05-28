@@ -14,10 +14,14 @@ import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.dryPepperoniStickTeam.bePatient.domain.visit.FilterVisitStatus.AVAILABLE;
 import static java.util.stream.Collectors.toList;
@@ -27,6 +31,8 @@ import static java.util.stream.Collectors.toList;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class VisitService {
 
+    private static DecimalFormat df = new DecimalFormat("0.00");
+
     private final DoctorRepository doctorRepository;
     private final PatientRepository patientRepository;
 
@@ -35,6 +41,7 @@ public class VisitService {
 
     private final VisitRepository visitRepository;
     private final MapperFacade mapper;
+    private final TemplateEngine templateEngine;
 
     public void addDoctorAvailableVisit(long doctorId, VisitDetails visitDetails){
         Doctor doctor = doctorRepository.findById(doctorId).orElseThrow(RuntimeException::new);
@@ -78,27 +85,50 @@ public class VisitService {
         visit.setPatient(patient);
         visit.setStatus(VisitStatus.RESERVED);
         patient.getVisits().add(visit);
-        //fixme check if save is needed
     }
 
-    public void assignDiseaseAndMedicalServices(long visitId ,DiseaseAndServicesIdsHolder diseaseAndServicesIdsHolder){
-        List<Disease> diseases = diseaseRepository.findByIdIn(diseaseAndServicesIdsHolder.getDiseases());
-        if(diseases.size() != diseaseAndServicesIdsHolder.getDiseases().size()){
+    public void assignDiseaseAndMedicalServices(long visitId , PatientVisitCard patientVisitCard){
+        List<Disease> diseases = diseaseRepository.findByIdIn(patientVisitCard.getDiseases());
+        if(diseases.size() != patientVisitCard.getDiseases().size()){
             throw new RuntimeException();
         }
-        List<MedicalService> medicalServices = medicalServiceRepository.findByIdIn(diseaseAndServicesIdsHolder.getServices());
-        if(medicalServices.size() != diseaseAndServicesIdsHolder.getServices().size()){
+        List<MedicalService> medicalServices = medicalServiceRepository.findByIdIn(patientVisitCard.getServices());
+        if(medicalServices.size() != patientVisitCard.getServices().size()){
             throw new RuntimeException();
         }
 
         Visit visit = visitRepository.findById(visitId).orElseThrow(RuntimeException::new);
         visit.setDiseases(diseases);
         visit.setMedicalServices(medicalServices);
-        //fixme check if save is needed
+        visit.setMainSymptoms(patientVisitCard.getMainSymptoms());
+        visit.setTreatment(patientVisitCard.getTreatment());
+        visit.setAllergy(patientVisitCard.getAllergy());
+        visit.setAddiction(patientVisitCard.getAddiction());
+        visit.setComment(patientVisitCard.getComment());
     }
 
     public void changeVisitStatus(long visitId, VisitStatus status){
         Visit visit = visitRepository.findById(visitId).orElseThrow(RuntimeException::new);
         visit.setStatus(status);
+    }
+
+    public String generateHTMLView(long visitId){
+        Visit visit = visitRepository.findById(visitId).orElseThrow(RuntimeException::new);
+        Patient patient = visit.getPatient();
+        Context context = new Context();
+        context.setVariable("firstName", patient.getFirstName());
+        context.setVariable("lastName", patient.getLastName());
+        context.setVariable("email", patient.getEmail());
+        context.setVariable("pesel", patient.getUsername());
+        context.setVariable("phone", patient.getPhone());
+        context.setVariable("diseases", visit.getDiseases().stream().map(Disease::getName).collect(Collectors.joining( ", " )));
+        context.setVariable("mainSymptoms", visit.getMainSymptoms());
+        context.setVariable("treatment", visit.getTreatment());
+        context.setVariable("allergy", visit.getAllergy());
+        context.setVariable("addiction", visit.getAddiction());
+        context.setVariable("comment", visit.getComment());
+        context.setVariable("services", visit.getMedicalServices().stream().map(MedicalService::getService).collect(toList()));
+        context.setVariable("price", df.format(visit.getMedicalServices().stream().mapToDouble(MedicalService::getPrice).sum()));
+        return templateEngine.process("formula", context);
     }
 }

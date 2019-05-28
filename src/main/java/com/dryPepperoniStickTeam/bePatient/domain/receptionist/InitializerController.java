@@ -75,11 +75,11 @@ public class InitializerController {
 
         diseaseRepository.saveAll(asList(disease, disease1, disease2, disease3, disease4));
 
-        Patient patient = new Patient(0, "90011241122", "alaMakota1", singletonList(roleRepository.findByRole("ROLE_PATIENT")), "andrzej@gmail.com", null, "Jan", "Kozak");
-        Patient patient1 = new Patient(0, "91011241122", "alaMakota2", singletonList(roleRepository.findByRole("ROLE_PATIENT")), "andrzej@gmail.com", null, "Andrzej", "Lumpacz");
-        Patient patient2 = new Patient(0, "92011241122", "alaMakota3", singletonList(roleRepository.findByRole("ROLE_PATIENT")), "andrzej@gmail.com", null, "Beata", "Rozstowska");
-        Patient patient3 = new Patient(0, "93011241122", "alaMakota4", singletonList(roleRepository.findByRole("ROLE_PATIENT")), "andrzej@gmail.com", null, "Kamil", "Kominiok");
-        Patient patient4 = new Patient(0, "94011241122", "alaMakota5", singletonList(roleRepository.findByRole("ROLE_PATIENT")), "andrzej@gmail.com", null, "Sebastian", "Korzenny");
+        Patient patient = new Patient(0, "90011241122", "alaMakota1", singletonList(roleRepository.findByRole("ROLE_PATIENT")), "andrzej@gmail.com", null, "Jan", "Kozak", "123456789");
+        Patient patient1 = new Patient(0, "91011241122", "alaMakota2", singletonList(roleRepository.findByRole("ROLE_PATIENT")), "andrzej@gmail.com", null, "Andrzej", "Lumpacz", "123456789");
+        Patient patient2 = new Patient(0, "92011241122", "alaMakota3", singletonList(roleRepository.findByRole("ROLE_PATIENT")), "andrzej@gmail.com", null, "Beata", "Rozstowska", "123456789");
+        Patient patient3 = new Patient(0, "93011241122", "alaMakota4", singletonList(roleRepository.findByRole("ROLE_PATIENT")), "andrzej@gmail.com", null, "Kamil", "Kominiok", "123456789");
+        Patient patient4 = new Patient(0, "94011241122", "alaMakota5", singletonList(roleRepository.findByRole("ROLE_PATIENT")), "andrzej@gmail.com", null, "Sebastian", "Korzenny", "123456789");
 
         Doctor doctor = new Doctor(0, "doctorHouse", "kotMaAle", singletonList(roleRepository.findByRole("ROLE_DOCTOR")),
                 "Aleksander", "Ziółko", "dr n. md.", "ziolko@gmail.com" , asList(profession, profession3), null, asList(medicalService, medicalService1));
@@ -98,7 +98,7 @@ public class InitializerController {
             LocalDateTime start = LocalDateTime.of(2019, 5, 10, 8, 0);
             for(int j=0; j<50; j++) {
                 for (int i = 0; i < 16; i++) {
-                    d.addVisit(new Visit(0, start.plusMinutes(0), start.plusMinutes(30), VisitStatus.AVAILABLE, d, null, null, null));
+                    d.addVisit(new Visit(0, start.plusMinutes(0), start.plusMinutes(30), VisitStatus.AVAILABLE, d, null, null, null, null, null, null, null, null ));
                     start = start.plusMinutes(30);
                 }
                 start = start.plusHours(16);
@@ -106,9 +106,9 @@ public class InitializerController {
         });
 
         LocalDateTime start = LocalDateTime.of(2019, 4, 10, 8, 0);
-        Visit visit = new Visit(0, start.plusMinutes(0), start.plusMinutes(30), VisitStatus.PAID, doctor, patient1, singletonList(disease1), asList(medicalService2, medicalService3));
-        Visit visit1 = new Visit(0, start.plusMinutes(60), start.plusMinutes(90), VisitStatus.PAID, doctor2, patient3, asList(disease4, disease1), singletonList(medicalService));
-        Visit visit2 = new Visit(0, start.plusMinutes(180), start.plusMinutes(210), VisitStatus.PAID, doctor4, patient2, singletonList(disease3), singletonList(medicalService4));
+        Visit visit = new Visit(0, start.plusMinutes(0), start.plusMinutes(30), VisitStatus.PAID, doctor, patient1, singletonList(disease1), asList(medicalService2, medicalService3), "ból głowy, problemy z oddychaniem", "nawadnianie, odpoczynek", "brak", "brak", "dużo odpoczywać");
+        Visit visit1 = new Visit(0, start.plusMinutes(60), start.plusMinutes(90), VisitStatus.PAID, doctor2, patient3, asList(disease4, disease1), singletonList(medicalService), "wysypka", "terapia lekami antyhistaminowymi", "pyłki brzozy, roztocza", "brak", "2x dziennie loratadyna");
+        Visit visit2 = new Visit(0, start.plusMinutes(180), start.plusMinutes(210), VisitStatus.PAID, doctor4, patient2, singletonList(disease3), singletonList(medicalService4), "wymioty, otępienie", "nawadnianie", "brak", "alkohol", "na kaca najlepsza jest praca");
 
         patient1.addVisit(visit);  doctor.addVisit(visit);
         patient3.addVisit(visit1); doctor2.addVisit(visit1);

@@ -24,16 +24,18 @@ public class Patient extends User {
     String firstName;
     String lastName;
     String email;
+    String phone;
     @OneToMany(cascade = CascadeType.ALL)
     //@JoinColumn ditto
     List<Visit> visits;
 
-    public Patient(long id, String username, String password, List<UserRole> roles, String email, List<Visit> visits, String firstName, String lastName) {
+    public Patient(long id, String username, String password, List<UserRole> roles, String email, List<Visit> visits, String firstName, String lastName, String phone) {
         super(id, username, password, roles);
         this.email = email;
         this.visits = visits;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.phone = phone;
     }
 
     public void addVisit(Visit visit){

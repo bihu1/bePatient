@@ -53,7 +53,7 @@ public class DiseaseController {
             @ApiResponse(code = 400, message = "Request body is not correct")
     })
     @ResponseStatus(code = HttpStatus.CREATED)
-    @Secured("ROLE_ADMIN")
+    @Secured({"ROLE_ADMIN", "ROLE_DOCTOR"})
     public void addDisease(@RequestBody @Valid DiseaseDetails diseaseDetails){
         diseaseService.addDisease(diseaseDetails);
     }

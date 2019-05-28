@@ -36,4 +36,9 @@ public class Visit {
     List<Disease> diseases;
     @ManyToMany
     List<MedicalService> medicalServices;
+    String mainSymptoms;
+    String treatment;
+    String allergy;
+    String addiction;
+    String comment;
 }
