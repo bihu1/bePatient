@@ -66,7 +66,7 @@ public class DiseaseController {
             @ApiResponse(code = 404, message = "Not found")
     })
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    @Secured("ROLE_ADMIN")
+    @Secured({"ROLE_ADMIN", "ROLE_DOCTOR"})
     public void updateDisease(
             @PathVariable long diseaseId,
             @RequestBody @Valid DiseaseUpdate diseaseUpdate
@@ -81,7 +81,7 @@ public class DiseaseController {
             @ApiResponse(code = 404, message = "Not found")
     })
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    @Secured("ROLE_ADMIN")
+    @Secured({"ROLE_ADMIN", "ROLE_DOCTOR"})
     public void deleteDisease(
             @PathVariable long diseaseId
     ){
