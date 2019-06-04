@@ -83,6 +83,13 @@ public class DoctorService {
         doctorRepository.save(doctor);
     }
 
+    public void deleteDoctor(long doctorId){
+        if(!doctorRepository.existsById(doctorId)){
+            throw new RuntimeException();
+        }
+        doctorRepository.deleteById(doctorId);
+    }
+
     private static<T,V> Optional<Consumer<String>> checkIfIndexesWerePulled(List<T> list1, List<V> list2){
         if(list1 == null || list2 == null){
             return Optional.empty();

@@ -65,4 +65,16 @@ public class DoctorController {
     public void updateDoctor(@PathVariable long doctorId, @RequestBody DoctorUpdate doctorUpdate) {
         doctorService.updateDoctor(doctorId, doctorUpdate);
     }
+
+    @DeleteMapping("/{doctorId}")
+    @ApiOperation(value = "Delete doctor by Id", authorizations = {@Authorization("Bearer <oAuth2>")} )
+    @ApiResponses({
+            @ApiResponse(code = 204, message = "Doctor deleted"),
+            @ApiResponse(code = 404, message = "Doctor not found"),
+    })
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Secured("ROLE_ADMIN")
+    public void deleteDoctor(@PathVariable long doctorId) {
+        doctorService.deleteDoctor(doctorId);
+    }
 }
