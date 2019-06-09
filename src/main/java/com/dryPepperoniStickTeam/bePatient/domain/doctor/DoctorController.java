@@ -1,8 +1,8 @@
 package com.dryPepperoniStickTeam.bePatient.domain.doctor;
 
-import com.dryPepperoniStickTeam.bePatient.domain.user.User;
-import com.dryPepperoniStickTeam.bePatient.domain.user.UserRepository;
-import com.dryPepperoniStickTeam.bePatient.domain.user.UserRole;
+import com.dryPepperoniStickTeam.bePatient.domain.doctor.http.model.DoctorDetails;
+import com.dryPepperoniStickTeam.bePatient.domain.doctor.http.model.DoctorUpdate;
+import com.dryPepperoniStickTeam.bePatient.domain.doctor.http.model.DoctorView;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -10,50 +10,71 @@ import io.swagger.annotations.Authorization;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static java.util.Arrays.asList;
-
 @RestController
+@RequestMapping("/api/doctors")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class DoctorController {
 
-    private final DoctorRepository doctorRepository;
-    private final UserRepository userRepository;
+    private final DoctorService doctorService;
 
-    @GetMapping("test")
-    @ApiOperation(value = "Shit")
+    @GetMapping
+    @ApiOperation(value = "Get all doctors", authorizations = {@Authorization("Bearer <oAuth2>")})
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
     })
     @ResponseStatus(HttpStatus.OK)
-    public List<String> getTest() {
-        //doctorRepository.save(new Doctor(1, "a"));
-        return asList("a","b","c");
+    public List<DoctorView> getAllDoctors() {
+        return doctorService.getAllDoctors();
     }
 
-    @GetMapping("/api/auth/test")
-    @ApiOperation(value = "Shit", authorizations = {@Authorization("Bearer <oAuth2>")} )
+    @GetMapping("/{doctorId}")
+    @ApiOperation(value = "Get doctor", authorizations = {@Authorization("Bearer <oAuth2>")})
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 404, message = "Doctor not found"),
     })
     @ResponseStatus(HttpStatus.OK)
-    public List<String> getTest2() {
-        return asList("a","b","c");
+    public DoctorView getAllDoctors(@PathVariable long doctorId) {
+        return doctorService.getDoctor(doctorId);
     }
 
-    @GetMapping("registry")
-    @ApiOperation(value = "Shit")
+    @PostMapping
+    @ApiOperation(value = "Add new doctor", authorizations = {@Authorization("Bearer <oAuth2>")} )
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
     })
     @ResponseStatus(HttpStatus.OK)
-    public void getTest2a(
-            @RequestParam String username,
-            @RequestParam String password
-    ){
-        userRepository.save(new User(0,username,password,asList(new UserRole("user"))));
+    @Secured("ROLE_ADMIN")
+    public void addDoctor(@RequestBody DoctorDetails doctorDetails) {
+        doctorService.addDoctor(doctorDetails);
+    }
+
+    @PutMapping("/{doctorId}")
+    @ApiOperation(value = "Update doctor by Id", authorizations = {@Authorization("Bearer <oAuth2>")} )
+    @ApiResponses({
+            @ApiResponse(code = 204, message = "Doctor updated"),
+            @ApiResponse(code = 404, message = "Doctor not found"),
+    })
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Secured("ROLE_ADMIN")
+    public void updateDoctor(@PathVariable long doctorId, @RequestBody DoctorUpdate doctorUpdate) {
+        doctorService.updateDoctor(doctorId, doctorUpdate);
+    }
+
+    @DeleteMapping("/{doctorId}")
+    @ApiOperation(value = "Delete doctor by Id", authorizations = {@Authorization("Bearer <oAuth2>")} )
+    @ApiResponses({
+            @ApiResponse(code = 204, message = "Doctor deleted"),
+            @ApiResponse(code = 404, message = "Doctor not found"),
+    })
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Secured("ROLE_ADMIN")
+    public void deleteDoctor(@PathVariable long doctorId) {
+        doctorService.deleteDoctor(doctorId);
     }
 }

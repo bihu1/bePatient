@@ -1,4 +1,6 @@
 package com.dryPepperoniStickTeam.bePatient.config.security;
+import com.dryPepperoniStickTeam.bePatient.config.cross.CorsConfiguration;
+import com.dryPepperoniStickTeam.bePatient.domain.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +23,10 @@ import org.springframework.security.oauth2.provider.approval.TokenStoreUserAppro
 import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
+import org.springframework.security.web.session.SessionManagementFilter;
+
+import javax.servlet.Filter;
+
 
 @Configuration
 @EnableWebSecurity
@@ -30,11 +36,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private ClientDetailsService clientDetailsService;
 
 	@Autowired
-	private UserValidationService userValidationService;
+	private UserService userService;
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userValidationService)
+		auth.userDetailsService(userService)
 				.passwordEncoder(passwordEncoder());
 	}
 
@@ -43,18 +49,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 
+	@Bean
+	Filter corsFilter() {
+		return new CorsConfiguration();
+	}
 
 	@Override
 	@Order(Ordered.HIGHEST_PRECEDENCE)
 	protected void configure(HttpSecurity http) throws Exception {
 		http
+				.addFilterBefore(corsFilter(), SessionManagementFilter.class)
 				.sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
 				.csrf().disable()
 				.authorizeRequests()
-				.antMatchers("/registry").permitAll()
-				.antMatchers("/test").permitAll()
+				.antMatchers("/patients/registration").permitAll()
+				.antMatchers("/patients/pdf").permitAll()
+				.antMatchers("/initializing/test/data").permitAll()
 				.antMatchers("/token").permitAll()
 				.antMatchers("/oauth/token").permitAll()
 				.anyRequest().authenticated()

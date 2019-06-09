@@ -35,6 +35,12 @@ dependencyManagement {
 
 		dependency group: 'org.spockframework', name: 'spock-core', version: '1.2-groovy-2.4'
 		dependency group: 'org.spockframework', name: 'spock-spring', version: '1.2-groovy-2.4'
+
+		dependency group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8', version: '2.9.6'
+
+		dependency group: 'com.opencsv' ,name:'opencsv' ,version: '4.0'
+		dependency group: 'org.xhtmlrenderer', name: 'flying-saucer-core', version: '9.1.6'
+		dependency group: 'org.xhtmlrenderer', name: 'flying-saucer-pdf-itext5', version: '9.1.6'
 	}
 }
 
@@ -43,13 +49,20 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
+	implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8'
+	
 	implementation group: 'ma.glasnost.orika', name: 'orika-core'
 
 	implementation group: 'io.springfox', name: 'springfox-swagger2'
 	implementation group: 'io.springfox', name: 'springfox-swagger-ui'
 
-	implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8'
+	implementation group: 'com.opencsv' ,name:'opencsv'
+	
+	implementation group: 'org.xhtmlrenderer', name: 'flying-saucer-core'
+	implementation group: 'org.xhtmlrenderer', name: 'flying-saucer-pdf-itext5'
 
 	compileOnly 'org.projectlombok:lombok'
 
